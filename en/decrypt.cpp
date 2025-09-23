@@ -2,12 +2,12 @@
 #include <fstream>
 #include <string>
 
-using std::cout, std::endl, std::cin, std::string, std::ifstream, std::ofstream;
+using namespace std;
 
-string encrypt(string plaintext, int key);
-string decrypt(string ciphertext, int key);
-void encryptfile(string inputFile, string outputFile, int key);
-void decryptfile(string inputFile, string outputFile, int key);
+string encrypt(string plaintext);
+string decrypt(string ciphertext);
+void encryptfile(string inputFile, string outputFile);
+void decryptfile(string inputFile, string outputFile);
 
 int main(){
     int choice;
@@ -38,39 +38,51 @@ int main(){
     return 0;
 }
 
-string encrypt(string plaintext, int key){
+string encrypt(string plaintext){
+    string ciphertext = plaintext;
+    ciphertext = string(ciphertext.rbegin(), ciphertext.rend());
 
+    return ciphertext;
 }
 
-string decrypt(string ciphertext, int key){
-    
+string decrypt(string ciphertext){
+    string plaintext = ciphertext;
+    plaintext = string(plaintext.rbegin(), plaintext.rend());
+
+    return plaintext;
 }
 
-void encryptfile(string inputFile, string outputFile, int key){
+void encryptfile(string inputFile, string outputFile){
     ifstream inFile(inputFile);
-    ofstream outfile(outputFile);
+    ofstream outFile(outputFile);
     string line;
 
-    if(!inputFile.is_open() || !outputFile.is_open()){
+    if(!inFile.is_open() || !outFile.is_open()){
         throw std::runtime_error("Could not open file");
-        return;
     }
 
-    inputFile.close();
-    outputFile.close();
+    while(getline(inFile, line)){
+        outFile << encrypt(line) << endl;
+    }
+
+    inFile.close();
+    outFile.close();
 }
 
-void decryptfile(string inputFile, string outputFile, int key){
+void decryptfile(string inputFile, string outputFile){
     ifstream inFile(inputFile);
-    ofstream outfile(outputFile);
+    ofstream outFile(outputFile);
     string line;
 
-    if(!inputFile.is_open() || !outputFile.is_open()){
+    if(!inFile.is_open() || !outFile.is_open()){
         throw std::runtime_error("Could not open file");
-        return;
     }
 
-    inputFile.close();
-    outputFile.close();
+    while(getline(inFile, line)){
+        outFile << decrypt(line) << endl;
+    }
+
+    inFile.close();
+    outFile.close();
 }
 
