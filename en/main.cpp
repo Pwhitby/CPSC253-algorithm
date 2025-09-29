@@ -33,9 +33,13 @@ int main(){
 
     if(choice == 1){
         encryptFile(inputFile, outputFile, key);
+
+        cout <<"\n\n" << inputFile << " encrypted! " << endl;
     }
     else if(choice == 2){
         decryptFile(inputFile, outputFile, key);
+
+        cout <<"\n\n" << inputFile << " decrypted! " << endl;
     }
     else{
         cout << "invalid choice " << endl;

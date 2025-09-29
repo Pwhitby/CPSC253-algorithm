@@ -60,10 +60,11 @@ string xorencrypt(const string& input, int key){
 
 string transpose(const string& input, int key){
     int size = ((input.length() + key - 1) / key) * key;
-    string grid(size, 'X');
+    string grid(size, '.');
     int numRows = (grid.length()) / key;
+    
     //fill row by row
-    for(int i = 0; i < input.length(); i++){
+    for(size_t i = 0; i < input.length(); i++){
         grid[i] = input[i];
     }
 
@@ -71,7 +72,8 @@ string transpose(const string& input, int key){
     string result;
     for(int col = 0; col < key; col++){
         for(int row = 0; row < numRows; row++){
-            result += grid[row * key + col];
+            int gridIndex = row * key + col;
+            result += grid[gridIndex];
         }
     }
 
@@ -81,11 +83,11 @@ string transpose(const string& input, int key){
 string detranspose(const string& input, int key){
     int numRows = (input.length() + key - 1) / key;
     int size = numRows * key;
-
     string grid(size, 'X');
 
-    int index = 0;
+    size_t index = 0;
 
+    //generate array
     for (int col = 0; col < key; col++){
         for(int row = 0; row < numRows; row++){
             int gridIndex = row * key + col;
@@ -96,7 +98,8 @@ string detranspose(const string& input, int key){
     }
 
     string result;
-    for(int i = 0; i < input.length(); i++){
+
+    for(size_t i = 0; i < input.length(); i++){
         result += grid[i];
     }
 
@@ -124,7 +127,7 @@ string decrypt(const string& ciphertext, int key){
 
     plaintext = string(plaintext.rbegin(), plaintext.rend());
 
-    while(!plaintext.empty() && plaintext.front() == 'X'){
+    while(!plaintext.empty() && plaintext.front() == '.'){
         plaintext.erase(0,1);
     }
     return plaintext;
