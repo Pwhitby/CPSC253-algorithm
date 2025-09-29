@@ -1,15 +1,16 @@
 #include "encrypt.h"
 #include <fstream>
-#include <cctype>
-#include <filesystem>
 #include <string>
 
 using namespace std;
 
 bool isTxtFile(const string& file){
+    //splice from '.' at the end 
     size_t dot = file.rfind('.');
     if(dot == string::npos) return false;
     string ext = file.substr(dot);
+
+    //check for .txt substring
     return ext == ".txt";
 }
 
@@ -59,7 +60,7 @@ string xorencrypt(const string& input, int key){
 }
 
 string transpose(const string& input, int key){
-    int size = ((input.length() + key - 1) / key) * key;
+    int size = ((input.length() + key) / key) * key; //determines the length of the rows
     string grid(size, '.');
     int numRows = (grid.length()) / key;
     
@@ -81,13 +82,13 @@ string transpose(const string& input, int key){
 }
 
 string detranspose(const string& input, int key){
-    int numRows = (input.length() + key - 1) / key;
+    int numRows = (input.length() + key) / key;
     int size = numRows * key;
     string grid(size, 'X');
 
     size_t index = 0;
 
-    //generate array
+    //fill array col by col
     for (int col = 0; col < key; col++){
         for(int row = 0; row < numRows; row++){
             int gridIndex = row * key + col;
@@ -107,6 +108,7 @@ string detranspose(const string& input, int key){
 }
 
 string encrypt(const string& plaintext, int key){
+
     string ciphertext = plaintext;
 
     ciphertext = string(ciphertext.rbegin(), ciphertext.rend());
@@ -119,6 +121,7 @@ string encrypt(const string& plaintext, int key){
 }
 
 string decrypt(const string& ciphertext, int key){
+
     string plaintext = ciphertext;
 
     plaintext = xorencrypt(plaintext, key);

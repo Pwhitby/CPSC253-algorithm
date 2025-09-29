@@ -9,14 +9,17 @@ int main(){
     int choice;
     string inputFile, outputFile;
     int key;
+
     //take user input
     cout << "Enter the Input file name(ensure its only a txt file): ";
     cin >> inputFile;
+
     //check if not txt file
     if(!isTxtFile(inputFile)){
         cerr << "please only use a txt file " << endl;
         return 1;
     }
+
     //get output file and key
     cout << "Enter the Output file name: ";
     cin >> outputFile;
@@ -29,8 +32,7 @@ int main(){
     cout << "----------------------\n";
     cout << "Enter your choice: ";
     cin >> choice;
-
-
+    
     if(choice == 1){
         encryptFile(inputFile, outputFile, key);
 
